@@ -2,7 +2,7 @@ this is a package used to make a widget that can interface with the orchastrator
 
 ## Features
 
-this package just declares the interface the widget would need to implement
+this package just declares classes and interfaces required for the widget to work with the app
 
 ## Getting started
 
@@ -27,9 +27,10 @@ the interface currently has just 3 functions:
   - state is a string that describes the current state of the widget
   - send is a callback used by the widget afterwards to send a string of data to the other instances  
   of the same widget type across the different users
-- `void receive(String transaction)`
-  - a function that receives the string of data describing a transaction and changes the state of the widget accordingly
-- `void sync(List<String>)`
+- `void receive(Signal transaction)`
+  - a function that receives a signal with sent data in the content field and a metadata object with the server-added timestamp, 
+  sid and uid of sender and changes the state of the widget accordingly
+- `void sync(List<Signal>)`
   - a function that can take a series of transactions and apply them all in order, should preferably be optimized for mass loading
 - `String dump()`
   - a function that is called upon the apps closure to get the objective's state and commit it to the database  
@@ -37,7 +38,7 @@ the interface currently has just 3 functions:
 IMPORTANT: to ensure consistency and reliability the original message is echoed back to its sender too with relevant data.  
 this should be taken into account when sending a transaction as adding it offline as well would cause it to be duplicated
 
-NOTE: while the interface allows the app to use any arbitrary string for state/transaction,  
+NOTE: while the interface allows the app to use any arbitrary string for state/Signal.content,  
 it's generally preferred to use json for the data for uniformity and readability.
 
 ---

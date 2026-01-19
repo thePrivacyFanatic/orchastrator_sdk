@@ -1,6 +1,22 @@
+class MetaData {
+  final int sid;
+  final int uid;
+  final int timestamp;
+
+  MetaData({required this.sid, required this.uid, required this.timestamp});
+
+}
+
+class Signal {
+  final String content;
+  final MetaData? meta;
+
+  Signal({required this.content, this.meta});
+}
+
 abstract interface class Channel {
-  void init(String state, Function(String transaction) send);
-  void receive(String transaction);
-  void sync(List<String> transactions);
+  void init(String state, Function(String content) send);
+  void receive(Signal transaction);
+  void sync(List<Signal> transactions);
   String dump();
 }
