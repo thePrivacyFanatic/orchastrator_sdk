@@ -29,10 +29,15 @@ the interface currently has just 3 functions:
   of the same widget type across the different users
 - `void receive(String transaction)`
   - a function that receives the string of data describing a transaction and changes the state of the widget accordingly
+- `void sync(List<String>)`
+  - a function that can take a series of transactions and apply them all in order, should preferably be optimized for mass loading
 - `String dump()`
   - a function that is called upon the apps closure to get the objective's state and commit it to the database  
 
-NOTE: while the interface allows the app tto use any arbitrary string for state/transaction,  
+IMPORTANT: to ensure consistency and reliability the original message is echoed back to its sender too with relevant data.  
+this should be taken into account when sending a transaction as adding it offline as well would cause it to be duplicated
+
+NOTE: while the interface allows the app to use any arbitrary string for state/transaction,  
 it's generally preferred to use json for the data for uniformity and readability.
 
 ---
@@ -43,9 +48,10 @@ you can open the the directory in the project where objective.dart is and run `d
 ---
 
 the widgets lifecycle is this:
-1. the widget is created upon opening the group it is a part of and init(savedState, send) is called on it to initially build it
-2. the widget calls send(transaction) to send message and has receive(transaction) called to change it's own state
-3. onDetach is called which prompts dump() to be called on the widget, on the next open savedState will be set to the returned string
+1. the widget is created upon opening the group it is a part of and Objective.init(savedState, send) is called on it to initially build it
+2. the missed transactions are fetched and Objective.sync(transactions) is called to update it
+3. main loop: the widget can call send(transaction) to send messages and has Objective.receive(transaction) called to change its own state
+4. onDetach is called which prompts Objective.dump() to be called on the widget, on the next open savedState will be set to the returned string
 
 in objective.dart 
 
@@ -60,4 +66,3 @@ class Objective extends Widget implements Channel { // state can also be managed
 the EVC bytecode file can be loaded by the app in the admin settings as part of adding an objective
 
 for further research on the topic the app's implementation of widget loading is stored in lib/components/loader.dart
-(TODO: make this actually exist)
