@@ -26,6 +26,7 @@ class Signal {
 
 abstract class ObjectiveWidget extends StatelessWidget {
   final Stream<Signal> transactions;
+  final Function(String transaction) send;
 
-  const ObjectiveWidget({super.key, required this.transactions});
+  const ObjectiveWidget({super.key, required this.transactions, required this.send});
 }

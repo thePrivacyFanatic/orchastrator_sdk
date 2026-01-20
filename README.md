@@ -22,8 +22,9 @@ create a class named Objective extending the ObjectiveWidget class in objective.
 
 ---
 
-the class has just a stream as an attribute and extends StatelessWidget,   
-the build method should register for the stream in order to receive signals
+the class has 2 attributes:
+1. state: a stream of all transactions up to this moment
+2. send: a callback to broadcast a signal, takes only its content into account
 
 IMPORTANT: to ensure consistency across devices the original message is broadcasted with metadata added to its sender as well.  
 this should be taken into account when sending a transaction as also adding it offline would cause it to be duplicated
