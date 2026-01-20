@@ -17,6 +17,6 @@ class Signal {
 abstract interface class Channel {
   void init(String state, Function(String content) send);
   void receive(Signal transaction);
-  void sync(List<Signal> transactions);
+  void sync(String savedState, List<Signal> transactions);
   String dump();
 }

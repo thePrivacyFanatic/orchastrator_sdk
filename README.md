@@ -30,8 +30,8 @@ the interface currently has just 3 functions:
 - `void receive(Signal transaction)`
   - a function that receives a signal with sent data in the content field and a metadata object with the server-added timestamp, 
   sid and uid of sender and changes the state of the widget accordingly
-- `void sync(List<Signal>)`
-  - a function that can take a series of transactions and apply them all in order, should preferably be optimized for mass loading
+- `void sync(String savedState, List<Signal> transactions)`
+  - a function that can take a saved state and all transactions that were later relayed and creates the updated state from it
 - `String dump()`
   - a function that is called upon the apps closure to get the objective's state and commit it to the database  
 
