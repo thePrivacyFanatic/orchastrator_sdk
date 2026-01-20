@@ -6,6 +6,11 @@ class MetaData {
   final int timestamp;
 
   MetaData({required this.sid, required this.uid, required this.timestamp});
+
+  MetaData.fromJson(Map<String, dynamic> json)
+    : sid = json["sid"] as int,
+      uid = json["uid"] as int,
+      timestamp = json["timestamp"] as int;
 }
 
 class Signal {
@@ -13,6 +18,10 @@ class Signal {
   final MetaData? meta;
 
   Signal({required this.content, this.meta});
+
+  Signal.fromJson(Map<String, dynamic> json)
+    : content = json["content"] as String,
+      meta = MetaData.fromJson(json["meta"]);
 }
 
 abstract class ObjectiveWidget extends StatelessWidget {
@@ -20,4 +29,3 @@ abstract class ObjectiveWidget extends StatelessWidget {
 
   const ObjectiveWidget({super.key, required this.transactions});
 }
-
