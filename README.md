@@ -41,7 +41,6 @@ the widgets lifecycle is this:
 3. the missed transactions are synchronized and sent to the signal
 4. main loop: the widget can call send(transaction) to send messages and has new signals streamed to it (and to the file storing all transactions)
 
-in objective.dart 
 
 ```dart
 import 'package:orchastrator_sdk/orchastrator_sdk.dart';
