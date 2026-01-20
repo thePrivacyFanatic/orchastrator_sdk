@@ -18,27 +18,15 @@ this package just declares classes and interfaces required for the widget to wor
 
 ## Usage
 
-implement the "Channel" interface in your "Objective" class and compile the widget into EVC bytecode
+create a class named Objective extending the ObjectiveWidget class in objective.dart
 
 ---
 
-the interface currently has just 3 functions:  
-- `void init(String state, Function(String transaction) send, Stream<Signal> missedTransactions)`
-  - state is a string that describes the current state of the widget
-  - send is a callback used by the widget afterwards to send a string of data to the other instances  
-  of the same widget type across the different users
-  - missedTransactions is a stream of signals that should be synchronized with the current state
-- `void receive(Signal transaction)`
-  - a function that receives a signal with sent data in the content field and a metadata object with the server-added timestamp, 
-  sid and uid of sender and changes the state of the widget accordingly
-- `String dump()`
-  - a function that is called upon the apps closure to get the objective's state and commit it to the database  
+the class has just a stream as an attribute and extends StatelessWidget,   
+the build method should register for the stream in order to receive signals
 
-IMPORTANT: to ensure consistency and reliability the original message is echoed back to its sender too with relevant data.  
-this should be taken into account when sending a transaction as adding it offline as well would cause it to be duplicated
-
-NOTE: while the interface allows the app to use any arbitrary string for state/Signal.content,  
-it's generally preferred to use json for the data for uniformity and readability.
+IMPORTANT: to ensure consistency across devices the original message is broadcasted with metadata added to its sender as well.  
+this should be taken into account when sending a transaction as also adding it offline would cause it to be duplicated
 
 ---
 
@@ -48,15 +36,16 @@ you can open the the directory in the project where objective.dart is and run `d
 ---
 
 the widgets lifecycle is this:
-1. the widget is created upon opening the group it is a part of and Objective.init(savedState, send) is called on it to initially build it
-2. the missed transactions are fetched and Objective.sync(transactions) is called to update it
-3. main loop: the widget can call send(transaction) to send messages and has Objective.receive(transaction) called to change its own state
-4. onDetach is called which prompts Objective.dump() to be called on the widget, on the next open savedState will be set to the returned string
+1. the widget is constructed upon opening the group, and Objective.init(transactions, send) is called on it to initially populate it, where transactions is loaded from a file
+2. the widget is built
+3. the missed transactions are synchronized and sent to the signal
+4. main loop: the widget can call send(transaction) to send messages and has new signals streamed to it (and to the file storing all transactions)
 
 in objective.dart 
 
 ```dart
-class Objective extends Widget implements Channel { // state can also be managed by a more internal widget
+import 'package:orchastrator_sdk/orchastrator_sdk.dart';
+class Objective extends ObjectiveWidget { // state will be managed by the internal widgets
   // your code here
 }
 ```

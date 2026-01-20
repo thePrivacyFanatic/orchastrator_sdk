@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class MetaData {
   final int sid;
   final int uid;
@@ -13,12 +15,9 @@ class Signal {
   Signal({required this.content, this.meta});
 }
 
-abstract interface class Channel {
-  void init(
-    String state,
-    Function(String content) send,
-    Stream<Signal> missedTransactions,
-  );
-  void receive(Signal transaction);
-  String dump();
+abstract class ObjectiveWidget extends StatelessWidget {
+  final Stream<Signal> transactions;
+
+  const ObjectiveWidget({super.key, required this.transactions});
 }
+
