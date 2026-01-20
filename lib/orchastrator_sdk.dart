@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class MetaData {
@@ -11,6 +13,8 @@ class MetaData {
     : sid = json["sid"] as int,
       uid = json["uid"] as int,
       timestamp = json["timestamp"] as int;
+
+  Map<String, dynamic> toJson() => {'sid': sid, 'uid': uid, "timestamp": timestamp};
 }
 
 class Signal {
@@ -22,6 +26,8 @@ class Signal {
   Signal.fromJson(Map<String, dynamic> json)
     : content = json["content"] as String,
       meta = MetaData.fromJson(json["meta"]);
+
+  Map<String, dynamic> toJson() => {'content': content, 'meta': jsonEncode(meta)};
 }
 
 abstract class ObjectiveWidget extends StatelessWidget {
