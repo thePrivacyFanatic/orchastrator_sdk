@@ -23,12 +23,11 @@ implement the "Channel" interface in your "Objective" class and compile the widg
 ---
 
 the interface currently has just 3 functions:  
-- `void init(String state, Function(String transaction) send, List<Signal> missedTransactions)`
+- `void init(String state, Function(String transaction) send, Stream<Signal> missedTransactions)`
   - state is a string that describes the current state of the widget
   - send is a callback used by the widget afterwards to send a string of data to the other instances  
   of the same widget type across the different users
-  - missedTransactions is a list of signals that should be synchronized with the current state,  
-  these two are given separately allowing for more flexibility with the loading
+  - missedTransactions is a stream of signals that should be synchronized with the current state
 - `void receive(Signal transaction)`
   - a function that receives a signal with sent data in the content field and a metadata object with the server-added timestamp, 
   sid and uid of sender and changes the state of the widget accordingly

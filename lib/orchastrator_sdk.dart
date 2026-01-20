@@ -17,7 +17,7 @@ abstract interface class Channel {
   void init(
     String state,
     Function(String content) send,
-    List<Signal> missedTransactions,
+    Stream<Signal> missedTransactions,
   );
   void receive(Signal transaction);
   String dump();
