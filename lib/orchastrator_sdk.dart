@@ -4,7 +4,6 @@ class MetaData {
   final int timestamp;
 
   MetaData({required this.sid, required this.uid, required this.timestamp});
-
 }
 
 class Signal {
@@ -15,8 +14,11 @@ class Signal {
 }
 
 abstract interface class Channel {
-  void init(String state, Function(String content) send);
+  void init(
+    String state,
+    Function(String content) send,
+    List<Signal> missedTransactions,
+  );
   void receive(Signal transaction);
-  void sync(String savedState, List<Signal> transactions);
   String dump();
 }
