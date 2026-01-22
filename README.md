@@ -23,8 +23,9 @@ create a class named Objective extending the ObjectiveWidget class in objective.
 ---
 
 the class has 2 attributes:
-1. state: a stream of all transactions up to this moment
-2. send: a callback to broadcast a signal, takes only its content into account
+1. input: a stream of messages received and intended for this widget
+2. send: a streamController allowing the widget to stream messages out
+3. state: a file that the widget has permission to access
 
 IMPORTANT: to ensure consistency across devices the original message is broadcasted with metadata added to its sender as well.  
 this should be taken into account when sending a transaction as also adding it offline would cause it to be duplicated

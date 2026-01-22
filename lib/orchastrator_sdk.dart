@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -31,8 +33,10 @@ class Signal {
 }
 
 abstract class ObjectiveWidget extends StatelessWidget {
-  final Stream<Signal> transactions;
-  final Function(String transaction) send;
+  final Stream<Signal> input;
+  final StreamController<Stream> send;
+  final File state;
 
-  const ObjectiveWidget({super.key, required this.transactions, required this.send});
+  const ObjectiveWidget({super.key, required this.input, required this.send, required this.state});
+
 }
