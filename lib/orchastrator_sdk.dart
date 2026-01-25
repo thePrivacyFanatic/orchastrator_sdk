@@ -1,35 +1,25 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-class MetaData {
+
+
+class Signal {
+  final String content;
   final int sid;
   final int uid;
   final int timestamp;
 
-  MetaData({required this.sid, required this.uid, required this.timestamp});
-
-  MetaData.fromJson(Map<String, dynamic> json)
-    : sid = json["sid"] as int,
-      uid = json["uid"] as int,
-      timestamp = json["timestamp"] as int;
-
-  Map<String, dynamic> toJson() => {'sid': sid, 'uid': uid, "timestamp": timestamp};
-}
-
-class Signal {
-  final String content;
-  final MetaData? meta;
-
-  Signal({required this.content, this.meta});
+  Signal({required this.content, required this.sid, required this.uid, required this.timestamp});
 
   Signal.fromJson(Map<String, dynamic> json)
     : content = json["content"] as String,
-      meta = MetaData.fromJson(json["meta"]);
+      sid = json["sid"] as int,
+      uid = json["uid"] as int,
+      timestamp = json["timestamp"] as int;
 
-  Map<String, dynamic> toJson() => {'content': content, 'meta': jsonEncode(meta)};
+  Map<String, dynamic> toJson() => {'content': content, "sid": sid, "uid": uid, "timestamp": timestamp};
 }
 
 abstract class ObjectiveWidget extends StatelessWidget {
